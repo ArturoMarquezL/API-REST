@@ -1,15 +1,16 @@
-from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from typing import List
-import sqlite3
-from pydantic import BaseModel
+from lib2to3.pytree import Base
+from typing import Union
 from typing_extensions import Self
 from urllib import response
 from urllib.request import Request
+from fastapi import Depends, FastAPI, HTTPException, status
+from typing import List
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from pydantic import BaseModel
+import sqlite3
 import os
 import hashlib
-from lib2to3.pytree import Base
-from typing import Union
+from fastapi.middleware.cors import CORSMiddleware
 
 
 class Respuesta (BaseModel):
@@ -29,11 +30,26 @@ class Usuarios(BaseModel):
     username: str
     level: int
 
+origin = [
+    "https://8000-arturomarquezl-apirest-yv4tjpyrt41.ws-us53.gitpod.io/",
+    "https://8080-arturomarquezl-apirest-yv4tjpyrt41.ws-us53.gitpod.io/",
+]
+
+
+
 app = FastAPI()
 
 security = HTTPBasic()
 
 DATABASE_URL = os.path.join("sql/users.sqlite")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins="*",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_current_level(credentials: HTTPBasicCredentials = Depends(security)):
     password_b = hashlib.md5(credentials.password.encode())
