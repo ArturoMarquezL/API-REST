@@ -6,7 +6,7 @@
         <title>Cliente</title>
     </header>
     <body>
-        <h1>Cliente</h1>
+        <h1>Eliminar Cliente</h1>
         
         <form id="form_cliente" action="">
             <label for="nombre">Nombre:</label>
@@ -16,10 +16,15 @@
             <label for="email">Email:</label>
             <br>
             <input type="email" id="email" name="email">
+            <br></br>
+            <input type="button" value="Borrar" onclick="DeleteCliente()">
         </form>
 
+        <script type="text/javascript" src="/script.js/delete_clientes.js"></script>
+        
         <script type="text/javascript" src="/script.js/get.js"></script>
         <script async>
+            
             document.body.onload = getCliente();
         </script>
     </body>
